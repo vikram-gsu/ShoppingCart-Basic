@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="ShoppingCartApp">
+<head>
+	<title>Shopping Cart app with Angular</title>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="angular.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	<div ng-controller="ShoppingCartListController as list">
+		<input type="text" ng-model="list.itemName">
+		<input type="text" ng-model="list.itemQuantity">
+		<button ng-click="list.addItem()">Add Item</button>
+		{{list.lastRemoved}}
+		<br>
+		<list-item title="{{list.title}}" remove-item="list.removeItem(index)" items="list.items"></list-item>
+	</div>
+	<spinner-app></spinner-app>
+</body>
+</html>
