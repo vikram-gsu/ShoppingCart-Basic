@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html ng-app="ShoppingCartApp">
+<html ng-app="ShoppingCart">
 <head>
 	<title>Shopping Cart app with Angular</title>
-	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
-	<script type="text/javascript" src="angular.min.js"></script>
-	<script type="text/javascript" src="app.js"></script>
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-	<div ng-controller="ShoppingCartListController as list">
+	<div ng-controller="shoppingCartController as list">
 		<input type="text" ng-model="list.itemName">
 		<input type="text" ng-model="list.itemQuantity">
 		<button ng-click="list.addItem()">Add Item</button>
 		{{list.lastRemoved}}
 		<br>
-		<list-item title="{{list.title}}" remove-item="list.removeItem(index)" items="list.items"></list-item>
+		<shopping-cart title="{{list.title}}" remove-item="list.removeItem(index)" items="list.items"></shopping-cart>
 	</div>
 	<spinner-app></spinner-app>
+
+	<script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="lib/angular.min.js"></script>
+
+	<script src="src/ShoppingCart/shoppingCart.module.js"></script>
+
+	<script src="src/ShoppingCart/shoppingCart.component.js"></script>
+	<script src="src/ShoppingCart/shoppingCart.controller.js"></script>
+	
 </body>
 </html>
