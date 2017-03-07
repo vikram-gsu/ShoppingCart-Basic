@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="ShoppingCartApp">
+<html ng-app="ShoppingList">
 <head>
 	<title>Shopping Cart app with Angular</title>
-	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
-	<script type="text/javascript" src="angular.min.js"></script>
-	<script type="text/javascript" src="app.js"></script>
-	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-	<div ng-controller="ShoppingCartListController as list">
+	<div ng-controller="ShoppingCartController as list">
 		<input type="text" ng-model="list.itemName">
 		<input type="text" ng-model="list.itemQuantity">
 		<button ng-click="list.addItem()">Add Item</button>
@@ -17,5 +13,22 @@
 		<list-item title="{{list.title}}" remove-item="list.removeItem(index)" items="list.items"></list-item>
 	</div>
 	<spinner-app></spinner-app>
+
+	<!--lib-->
+	<script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="lib/angular.min.js"></script>
+
+	<!--modules-->
+	<script src="src/Spinner/Spinner.module.js"></script>
+	<script src="src/ShoppingCart/ShoppingList.module.js"></script>
+
+	<!--Shoppinglist Module artifacts-->
+	<script src="src/ShoppingCart/ShoppingList.component.js"></script>
+	<script src="src/ShoppingCart/ShoppingList.controller.js"></script>
+	<script src="src/ShoppingCart/WeightLossFilter.service.js"></script>
+	
+	<!--Spinner module artifacts-->
+	<script src="src/Spinner/Spinner.component.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </body>
 </html>
