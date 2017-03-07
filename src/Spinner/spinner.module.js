@@ -1,4 +1,4 @@
 (function(){
-	angular.module('SpinnerModule', [])
-	
+    'use strict;'
+    angular.module('Spinner', [])
 })()
