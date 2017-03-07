@@ -5,12 +5,13 @@
 </head>
 <body>
 	<div ng-controller="ShoppingCartController as list">
+
 		<input type="text" ng-model="list.itemName">
 		<input type="text" ng-model="list.itemQuantity">
 		<button ng-click="list.addItem()">Add Item</button>
 		{{list.lastRemoved}}
 		<br>
-		<list-item title="{{list.title}}" remove-item="list.removeItem(index)" items="list.items"></list-item>
+		<shopping-cart title="{{list.title}}" remove-item="list.removeItem(index)" items="list.items"></shopping-cart>
 	</div>
 	<spinner-app></spinner-app>
 
@@ -30,5 +31,6 @@
 	<!--Spinner module artifacts-->
 	<script src="src/Spinner/Spinner.component.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
+
 </body>
 </html>

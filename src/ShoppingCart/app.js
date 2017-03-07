@@ -11,19 +11,32 @@
 					}
 				}
 	var spinnerAppComponentOptions = {
-		templateUrl: 'loadingImage.html'
+		templateUrl: 'loadingImage.html',
+		controller: SpinnerController
 	}
 	angular.module('ShoppingCartApp', [])
 				.controller('ShoppingCartListController', ShoppingCartListController)
 				.component('listItem', listItemComponentOptions)
 				.component('spinnerApp', spinnerAppComponentOptions)
 				// .service('ShoppingCartService', ShoppingCartService)
-				.service('weightLossFilterService', WeightLossFilterService)
+				.service('WeightLossFilterService', WeightLossFilterService)
 
-	ShoppingCartListItemComponentController.$inject = ['$scope', '$element']
-	function ShoppingCartListItemComponentController($scope, $element){
+
+	SpinnerController.$inject = ['$rootScope']
+	function SpinnerController($rootScope){
 		var $ctrl = this
+		var cancelListener = $rootScope.$on('spinner:checkName', function(event, data){
+			$ctrl.spinnerIsOn = data.isOn
+		})
 
+		$ctrl.$onDestroy = function(){
+			cancelListener()
+		}
+	}
+	ShoppingCartListItemComponentController.$inject = ['$rootScope', '$element', '$q', 'WeightLossFilterService']
+	function ShoppingCartListItemComponentController($rootScope, $element, $q, WeightLossFilterService){
+		var $ctrl = this
+		var totalItems
 		$ctrl.cookiesInList = function(){
 			for (var i = $ctrl.items.length - 1; i >= 0; i--) {
 				if($ctrl.items[i].itemName.indexOf('cookie') != -1){
@@ -35,26 +48,40 @@
 		}
 
 		$ctrl.$onInit = function(){
-			console.log("In onInit")
+			totalItems = 0
 		}
 
 		$ctrl.$onChanges = function(changeObj){
 			console.log('Changes:', changeObj)
 		}
 
-		$ctrl.$postLink = function(){
-			$scope.$watch('$ctrl.cookiesInList()', function(newValue, oldValue){
-
-				console.log($element)
-				if(newValue){
-					var element = $element.find('div.warning')
-					element.slideDown(900)
-				}else{
-					var element = $element.find('div.warning')
-					element.slideUp(900)
+		$ctrl.$doCheck = function(){
+			if($ctrl.items.length != totalItems){
+				totalItems = $ctrl.items.length
+				var promises = []
+				for (var i = $ctrl.items.length - 1; i >= 0; i--) {
+					promises.push(WeightLossFilterService.checkChips($ctrl.items[i].itemName))
 				}
-			})
+				$rootScope.$broadcast('spinner:checkName', {isOn: true})
+				$q.all(promises)
+				.then(response => {
+					var element = $element.find('div.warning')
+					// $ctrl.warningMessage = response.message
+					element.slideUp(900)
+
+				})
+				.catch(error => {
+					var element = $element.find('div.warning')
+					// $ctrl.warningMessage = error.message
+					element.slideDown(900)
+				})
+				.finally(r => {
+					$rootScope.$broadcast('spinner:checkName', {isOn: false})	
+				})
+				
+			}
 		}
+
 	}
 
 	function ShoppingCartListController(){
@@ -80,19 +107,22 @@
 	// }
 
 	WeightLossFilterService.$inject = ['$q', '$timeout']
-	function WeightLossFilterService(){
+	function WeightLossFilterService($q, $timeout){
 		var service = this
 
 		service.checkChips = function(name){
 			var deferred = $q.defer()
-			
-			$timeout(name => {
+			var result = { message: ''}	
+			$timeout(() => {
 				if(name.indexOf('chip') != -1){
-					deferred.reject('No more chips available')
+					result.message = 'No more chips available' 
+					deferred.reject(result)
 				}else{
-					deferred.resolve('')
+					deferred.resolve(result)
 				}
 			},1000)
+
+			return deferred.promise
 		}
 	}
 })();
