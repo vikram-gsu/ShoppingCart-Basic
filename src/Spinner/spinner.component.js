@@ -14,7 +14,7 @@
 
         var cancelListener = $rootScope.$on('shoppingCart:processing', function(e, data){
             $ctrl.showSpinner = data.isOn
-        })
+                })
 
         $ctrl.$onDestroy = function(){
             cancelListener()
