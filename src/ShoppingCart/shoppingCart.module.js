@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('ShoppingCart', [
+    angular.module('ShoppingCart', ['Spinner'
         // Angular modules
 
         // Custom modules

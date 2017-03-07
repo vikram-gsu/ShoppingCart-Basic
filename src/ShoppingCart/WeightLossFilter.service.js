@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('ShoppingList')
+        .module('ShoppingCart')
         .service('WeightLossFilterService', WeightLossFilterService)
 
     WeightLossFilterService.$inject = ['$q', '$timeout'];

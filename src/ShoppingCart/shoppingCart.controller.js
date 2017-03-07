@@ -3,15 +3,14 @@
 
     angular
         .module('ShoppingCart')
-        .controller('shoppingCartController', ShoppingCartController)
+        .controller('ShoppingCartController', ShoppingCartController)
 
     ShoppingCartController.$inject = ['$location'];
 
     function ShoppingCartController($location) {
         /* jshint validthis:true */
         var list = this;
-        console.log('in shoppingCartController')
-        list.items = [{itemName: 'test1', itemQuantity: '3'}]
+        list.items = []
         list.title = 'Shopping Cart(' + list.items.length + ' items)'
         list.addItem = () => {
             list.items.push({itemName: list.itemName, itemQuantity: list.itemQuantity})
