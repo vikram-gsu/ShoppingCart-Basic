@@ -12,7 +12,7 @@
     function SpinnerController($rootScope){
         var $ctrl = this
 
-        var cancelListener = $rootScope.$on('loadingNotification:spinner', function(e, data){
+        var cancelListener = $rootScope.$on('shoppingCart:processing', function(e, data){
             console.log(data)
             // $ctrl.showSpinner = data.isOn
               if (data.isOn) {
